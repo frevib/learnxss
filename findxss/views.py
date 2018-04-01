@@ -4,24 +4,16 @@ from django.utils.safestring import mark_safe
 
 
 def index(request):
-	return HttpResponse("Hello world. You're at the polls index.")
+	return HttpResponse("TestQQQ")
 
-def testargument(request):
-	id_query_param = request.GET.get('id')
+def firstchallenge(request):
+	search_param = request.GET.get('search', '')
 
 	template = loader.get_template('findxss/index.html')
-	context = {
-		'id_query_param': id_query_param
-	}
+	context = {'search_param': mark_safe(search_param)}
 
-	context2 = {'id_query_param': mark_safe(id_query_param)}
-
-
-	print('context:')
-	print(context)
-
-	# print('query param: ')
-	# print(id_query_param)
-	# return HttpResponse("The following ID is requested: %s" % id_query_param)
-	return HttpResponse(template.render(context2))
+	response = HttpResponse(template.render(context))
+	response['Set-Cookie'] = 'TEAM_42_LOGIN_SESSION=YOU_ARE_OWNED!'
+	response['X-XSS-Protection'] = '0'
+	return response
 
