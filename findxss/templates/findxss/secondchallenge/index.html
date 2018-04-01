@@ -1,0 +1,20 @@
+
+
+{% load static %}
+<img style="display: inline-block;vertical-align:middle;" src="{% static "findxss/ING_logo.jpg" %}" height="75" width="150" alt="My image"/> 
+<h1 style="display: inline-block;">Intranet -- Welcome P. Jacobs</h1>
+<h2>This one is trickier :)</h2>
+<!-- <img src="static/ING_logo.jpg"> -->
+
+{% if search_param %}
+	<p>Could not find information on the following subject:</p>
+		<h3><script>{{ search_param }}</h3>
+{% else %}
+	<p>search the intranet</p>
+{% endif %}
+
+
+<form method="GET" action="">
+	<input type="text" name="search" id="search">
+	<input type="submit" value="search">
+</form>
