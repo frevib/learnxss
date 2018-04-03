@@ -16,7 +16,23 @@ def firstchallenge(request):
 def secondchallenge(request):
 	search_param = request.GET.get('search', '')
 
+	if '<script>' in search_param:
+		search_param = '<script>' + search_param
+
 	template = loader.get_template('findxss/secondchallenge/index.html')
+	context = {'search_param': mark_safe(search_param)}
+	return createresponse(context, template)
+
+def thirdchallenge(request):
+	search_param = request.GET.get('search', '')
+
+	search_param = search_param.replace('<script>', '')
+	search_param = search_param.replace('</script>', '')
+
+	print('search param:')
+	print(search_param)
+
+	template = loader.get_template('findxss/thirdchallenge/index.html')
 	context = {'search_param': mark_safe(search_param)}
 	return createresponse(context, template)
 
