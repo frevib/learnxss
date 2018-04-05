@@ -4,24 +4,21 @@ from django.utils.safestring import mark_safe
 
 
 def index(request):
-	return HttpResponse("TestQQQ")
+	return HttpResponse("Test!")
 
 def firstchallenge(request):
 	search_param = request.GET.get('search', '')
 
 	template = loader.get_template('findxss/firstchallenge/index.html')
 	context = {'search_param': mark_safe(search_param)}
-	return createresponse(context, template)
+	return createresponse(context, template, 'YOU_ARE_OWNED!')
 
 def secondchallenge(request):
-	search_param = request.GET.get('search', '')
-
-	if '<script>' in search_param:
-		search_param = '<script>' + search_param
+	colour_param = request.GET.get('colour', '#ff0000')
 
 	template = loader.get_template('findxss/secondchallenge/index.html')
-	context = {'search_param': mark_safe(search_param)}
-	return createresponse(context, template)
+	context = {'colour_param': mark_safe(colour_param)}
+	return createresponse(context, template, 'GOT_YOU_SECOND_TIME!')
 
 def thirdchallenge(request):
 	search_param = request.GET.get('search', '')
@@ -34,11 +31,11 @@ def thirdchallenge(request):
 
 	template = loader.get_template('findxss/thirdchallenge/index.html')
 	context = {'search_param': mark_safe(search_param)}
-	return createresponse(context, template)
+	return createresponse(context, template, 'WUT_I_FILTERED_SCRIPT_TAG!')
 
 	
-def createresponse(context, template):
+def createresponse(context, template, cookietext):
 	response = HttpResponse(template.render(context))
-	response['Set-Cookie'] = 'TEAM_42_LOGIN_SESSION=YOU_ARE_OWNED!'
+	response['Set-Cookie'] = 'TEAM_42_LOGIN_SESSION=' + cookietext
 	response['X-XSS-Protection'] = '0'
 	return response
