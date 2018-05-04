@@ -1,5 +1,5 @@
 """
-WSGI config for learnxss project.
+WSGI config for learnhacking project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
